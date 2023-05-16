@@ -210,6 +210,74 @@ module.exports = {
   forgotPassword,
   resetPassword,
 };
+const userTypeDefs = `
+type User {
+    id:ID!
+    firstName:String!
+    lastName:String
+    email:String!
+    gender:String!
+    phone_no:String
+}
+ 
+type FetchUserResponse {
+    data :[User]
+    meta:Meta
+}
+
+type LoginUser{
+    data:User
+    meta:Meta
+}
+type CommanResponse {
+    meta :Meta!
+}
+
+extend type Query {
+    fetchUsers:FetchUserResponse
+    getUser(id:ID!):FetchUserResponse
+ 
+}
+extend type Mutation {
+    createUser(
+        firstName:String!
+        lastName:String
+        email:String!
+        gender:String!
+        password:String!
+        phone_no:String
+    ):CreateUserResponse!
+
+    updateUser(
+        id:ID
+        firstName:String
+        lastName:String
+        email:String
+        gender:String
+        password:String
+        phone_no:String
+    ):FetchUserResponse
+
+    loginUser(email:String,password:String):LoginUser
+
+    resetPassword(
+        email:String
+        password:String
+    ):CommanResponse
+
+    forgotPassword(email:String):CommanResponse
+
+    deleteUser(id:ID!):FetchUserResponse
+}
+
+type CreateUserResponse{
+    data :User
+    meta:Meta
+}
+
+`;
+module.exports = { userTypeDefs };
+
 
 
 export default function App() {
